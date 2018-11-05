@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="/fragments/header :: navbar"></header>
+	<main class="mt-5 pt-4">
+	<div class="container">
+		<section>
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-8 text-justify">
+
+					<h2 class="my-5 h2 text-center">V League 2018</h2>
+
+					<br>
+					<p>
+						<strong><em>16-06-2018:</em></strong>
+					</p>
+					<p>- 17:00: XSKT Cần Thơ - FLC Thanh Hóa</p>
+					<p></p>
+				</div>
+
+				<!-- Row 2 -->
+				<div class="col-md-8 text-justify">
+					<table class="table table-borderless">
+						<tr>
+							<td>Vé loại 1:</td>
+							<td>0.4 Ethereum</td>
+							<td><a href="confirm"><button type="button"
+										class="btn btn-primary">Mua</button></a></td>
+						</tr>
+						<tr>
+							<td>Vé loại 2:</td>
+							<td>0.3 Ethereum</td>
+							<td><a href="confirm"><button type="button"
+										class="btn btn-primary">Mua</button></a></td>
+						</tr>
+						<tr>
+							<td>Vé loại 3:</td>
+							<td>0.2 Ethereum</td>
+							<td><a href="confirm"><button type="button"
+										class="btn btn-primary">Mua</button></a></td>
+						</tr>
+						<tr>
+							<td>Vé loại 4:</td>
+							<td>0.1 Ethereum</td>
+							<td><a href="confirm"><button type="button"
+										class="btn btn-primary">Mua</button></a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</section>
+
+	</div>
+	</main>
+
+
+	<footer th:replace="/fragments/footer :: footer"></footer>
+
+	<div th:replace="/fragments/footer :: script"></div>
+
+</body>
+</html>
+
+
