@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ResourcesHandler implements WebMvcConfigurer{
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
-			// TODO Auto-generated method stub
 			registry.addResourceHandler("/wallet/**").addResourceLocations("file:wallet/");
+			registry.addResourceHandler("/db/**").addResourceLocations("file:db/");
 		}
 }

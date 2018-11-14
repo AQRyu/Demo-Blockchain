@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.web3j.crypto.Credentials;
 
+import com.aqryuz.footballTicketDemo.model.SellerWallet;
 import com.aqryuz.footballTicketDemo.service.ContractService;
-import com.aqryuz.footballTicketDemo.service.SellerWallet;
 
 @Controller
 @RequestMapping("/merchant")

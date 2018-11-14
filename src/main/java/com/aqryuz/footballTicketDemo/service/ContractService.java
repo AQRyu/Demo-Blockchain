@@ -16,12 +16,15 @@ public interface ContractService {
 	public Contract load(Credentials sender);
 
 	public CompletableFuture<EthAccounts> getEthAccounts() throws Exception;
-	
+
 	public CompletableFuture<TransactionReceipt> withdraw();
-	
+
 	public String getContractAddress();
 
-	public CompletableFuture<TransactionReceipt> buyTicket(long id, long amount, String customerId, Double price);
-	
-	public RemoteCall<Tuple4<String, BigInteger, BigInteger, BigInteger>> checkCustomerHistory(String addr);
+	public RemoteCall<Tuple4<String, String, BigInteger, BigInteger>> checkCustomerHistory(String addr);
+
+	CompletableFuture<TransactionReceipt> buyTicket(Long _ticketId, Double _ticketPrice, Long _amount,
+			String _customerId);
+
+	Contract load(String contractAddress, Credentials sender);
 }

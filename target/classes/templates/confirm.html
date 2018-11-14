@@ -14,6 +14,9 @@
 			<div class="card">
 				<form class="form-horizontal card-body"
 					th:action="@{/customer/confirm}" method="post">
+					<input type="hidden" th:value="${event.id}" name="eventId" />
+					<input type="hidden" th:value="${ticket.id}" name="ticketId" />
+
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Email:</label>
 						<div class="col-sm-12">
@@ -43,7 +46,7 @@
 
 						<div class="col-md-6">
 							<label class=" control-label">Giá vé:</label> <input type="text"
-								name="price" class="form-control" readonly th:value="${price}" />
+								name="price" class="form-control" readonly th:value="${ticket.price}" />
 						</div>
 					</div>
 					<div class="form-group row mb-4">

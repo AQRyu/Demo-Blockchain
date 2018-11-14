@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="/fragments/header :: navbar"></header>
+	<main class="mt-5 p-4">
+	<section>
+		<div class="container wow fadeIn"
+			style="visibility: visible; animation-name: fadeIn;">
+
+			<h2 class="my-5 h2 text-center">Xác nhận mua vé</h2>
+			<div class="card">
+				<form class="form-horizontal card-body"
+					th:action="@{/customer/confirm}" method="post">
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">Email:</label>
+						<div class="col-sm-12">
+							<input type="text" name="email" class="form-control"
+								th:value="${email}" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">Số chứng minh thư:</label>
+						<div class="col-sm-12">
+							<input type="text" name="customerId" class="form-control"
+								th:value="${customerId}" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-6">
+							<label class=" control-label">Số lượng vé:</label> <select
+								class="custom-select d-block w-100" id="ticketAmount"
+								name="ticketAmount">
+								<option value="1" selected>1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</div>
+
+						<div class="col-md-6">
+							<label class=" control-label">Giá vé:</label> <input type="text"
+								name="price" class="form-control" readonly th:value="${price}" />
+						</div>
+					</div>
+					<div class="form-group row mb-4">
+						<label class="col-sm-2 control-label">Private key:</label>
+						<div class="col-sm-12">
+							<input type="password" name="privateKey" class="form-control"
+								th:value="${privateKey}" required />
+						</div>
+					</div>
+					<hr class="mb-4">
+					<div class="form-grouprow row">
+						<div class="col-sm-2">
+							<button type="submit"
+								class="btn btn-primary btn-lg btn-block waves-effect waves-light">Xác
+								nhận</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- Kết thúc div  -->
+		</div>
+	</section>
+	</main>
+	<footer th:replace="/fragments/footer :: footer"></footer>
+
+	<div th:replace="/fragments/footer :: script"></div>
+
+</body>
+</html>

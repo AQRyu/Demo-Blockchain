@@ -18,6 +18,13 @@
 		<version>2.0.6.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,8 +51,21 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.web3j</groupId> <artifactId>core</artifactId> 
-			<version>3.6.0</version> </dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/io.jsondb/jsondb-core -->
+		<dependency>
+			<groupId>io.jsondb</groupId>
+			<artifactId>jsondb-core</artifactId>
+			<version>1.0.85</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.github.ipfs</groupId>
+			<artifactId>java-ipfs-api</artifactId>
+			<version>v1.2.2</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.web3j/core -->
 		<dependency>

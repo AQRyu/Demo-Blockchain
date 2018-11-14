@@ -8,32 +8,24 @@
 	<main class="mt-5 pt-4">
 	<div class="container">
 		<section>
-			<div class="row">
-				<label class="col-sm-2 control-label">Số chứng minh thư:</label>
-				<div class="col-sm-10">
-					<input type="text" name="customerId" class="form-control"
-						th:value="${customerId}" />
-				</div>
-			</div>
-			<div class="row">
-				<label class="col-sm-2 control-label">Mã vé:</label>
-				<div class="col-sm-10">
-					<input type="text" name="ticketId" class="form-control"
-						th:value="${ticketId}" />
-				</div>
-			</div>
-			<div class="row">
-				<label class="col-sm-2 control-label">Số lượng vé đã mua:</label>
-				<div class="col-sm-10">
-					<input type="text" name="ticketAmount" class="form-control"
-						th:value="${ticketAmount}" />
-				</div>
-			</div>
-			<div class="row">
-				<label class="col-sm-2 control-label">Thời gian mua(thời gian block đào dc):</label>
-				<div class="col-sm-10">
-					<input type="text" name="timestamp" class="form-control"
-						th:value="${timestamp}" />
+			<div class="row d-flex justify-content-center">
+			<h2>Lịch sử giao dịch của khách hàng</h2>
+				<div class="col-md-8 text-justify">
+					<table class="table table-borderless">
+						<tr>
+							<td>Tên trận đấu</td>
+							<td>Giải đấu</td>
+							<td>Loại vé</td>
+							<td>Số lượng</td>
+							<td></td>
+						</tr>
+						<tr th:each="customer : ${customers}">
+							<td th:text="${customer.eventName}">Vé loại 1:</td>
+							<td th:text=${customer.eventLeague}>Ethereum</td>
+							<td th:text=${customer.ticketType}></td>
+							<td th:text=${customer.numsTicketBought}></td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</section>
