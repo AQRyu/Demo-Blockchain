@@ -20,10 +20,12 @@
 							<td></td>
 						</tr>
 						<tr th:each="customer : ${customers}">
-							<td th:text="${customer.eventName}">Vé loại 1:</td>
-							<td th:text=${customer.eventLeague}>Ethereum</td>
+							<td th:text="${customer.eventName}"></td>
+							<td th:text=${customer.eventLeague}></td>
 							<td th:text=${customer.ticketType}></td>
 							<td th:text=${customer.numsTicketBought}></td>
+							<td ><a th:href="@{/customer/qrcode/{orderId}(orderId=${customer.orderId})}" ><button type="button"
+							class="btn btn-primary">tạo qr code</button></a></td>
 						</tr>
 					</table>
 				</div>

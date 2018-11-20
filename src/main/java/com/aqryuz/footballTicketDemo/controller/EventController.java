@@ -1,8 +1,13 @@
 package com.aqryuz.footballTicketDemo.controller;
 
-import java.time.Instant;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,16 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aqryuz.footballTicketDemo.entity.EventEntity;
 import com.aqryuz.footballTicketDemo.model.Ticket;
-import com.aqryuz.footballTicketDemo.repository.EventRepository;
+import com.aqryuz.footballTicketDemo.service.EventService;
 
 
 @RestController
 @RequestMapping("/api")
 public class EventController {
 	@Autowired
-	private EventRepository eventRepository;
+	private EventService eventService;
 
-//@PostConstruct
+	@PostConstruct
 	public void createCollection() {
 		List<Ticket> tickets = new ArrayList<Ticket>();
 		Ticket ticket0 = new Ticket(0L,"A", 0.1);
@@ -37,7 +42,7 @@ public class EventController {
 		tickets.add(ticket1);
 		tickets.add(ticket2);
 		tickets.add(ticket3);
-		
+
 
 		EventEntity entity = new EventEntity();
 		entity.setId(1232L);
@@ -45,37 +50,39 @@ public class EventController {
 		entity.setHomeTeam("Real Madrid");
 		entity.setAwayTeam("Barcelona");
 		entity.setLeague("La liga");
+		entity.setStadium("Nou Camp");
 		entity.setIpfsHash("ipfsHash");
 		entity.setContractHash("ContractHash");
 		entity.setNumsTicket(500);
 		entity.setTickets(tickets);
-		entity.setTimestamp(Instant.now().getEpochSecond());
-		eventRepository.upsert(entity);
+
+		entity.setDate(Date.valueOf(LocalDate.now()).toString());
+		entity.setTime(Time.valueOf(LocalTime.now()).toString());
+
+		eventService.upsert(entity);
 	}
 
 	@GetMapping("/events")
 	public ResponseEntity<List<?>> findAll() {
-		List<EventEntity> eventEntity = eventRepository.findAll();
+		List<EventEntity> eventEntity = eventService.findAll();
 		return new ResponseEntity<>(eventEntity, HttpStatus.OK);
 	}
 
 	@GetMapping("/events/{id}")
 	public ResponseEntity<?> find(@PathVariable Long id){
-		EventEntity eventEntity = eventRepository.find(id);
+		EventEntity eventEntity = eventService.find(id);
 		return new ResponseEntity<>(eventEntity,HttpStatus.OK);
 	}
 
 	@PostMapping("/events")
 	public ResponseEntity<?> add(@RequestBody EventEntity event){
-		EventEntity eventEntity = new EventEntity(event);
-		eventRepository.insert(eventEntity);
-		return new ResponseEntity<EventEntity>(eventEntity, HttpStatus.OK);
+		eventService.insert(event);
+		return new ResponseEntity<EventEntity>(event, HttpStatus.OK);
 	}
 
 	@PutMapping("/events/")
 	public ResponseEntity<?> upsert(@RequestBody EventEntity event){
-		EventEntity eventEntity = new EventEntity(event);
-		eventRepository.upsert(eventEntity);
-		return new ResponseEntity<EventEntity>(eventEntity, HttpStatus.OK);
+		eventService.upsert(event);
+		return new ResponseEntity<EventEntity>(event, HttpStatus.OK);
 	}
 }

@@ -18,6 +18,8 @@ public interface OrderService {
 	public void save(String customerAddress);
 
 	public OrderEntity find(String customerAddress);
+	
+	public OrderEntity find(Long id);
 
 	public List<OrderEntity> findAll();
 	

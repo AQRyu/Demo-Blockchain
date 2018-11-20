@@ -1,5 +1,6 @@
 package com.aqryuz.footballTicketDemo.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class HomeController {
 	@GetMapping("/")
 	public String index(Model model) {
 		List<EventEntity> events = eventService.findAll();
+		Collections.reverse(events);
 		model.addAttribute("events",events);
 		return "index";
 	}

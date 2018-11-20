@@ -20,4 +20,6 @@ public interface OrderRepository {
 
 	List<OrderEntity> findAllBy(String customerAddress);
 
+	public OrderEntity find(Long id);
+
 }

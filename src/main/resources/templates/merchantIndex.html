@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="/fragments/header :: head">
+</head>
+<body>
+	<header th:replace="/fragments/header :: header"></header>
+	<main>
+	<div class="container mt-5">
+		<section>
+			<div class="row">
+				<h3>Danh sách trận đấu</h3>
+			</div>
+			<div class="row">
+				<a th:href="@{/merchant/createTicket}"><button
+						class="btn btn-default">Tạo trận đấu</button></a> <a
+					th:href="@{/merchant/withdraw}"><button class="btn btn-default">Rút
+						ETH</button></a>
+			</div>
+			<div class="row" th:each="event : ${events}">
+				<div class="col" th:text="${event.name}">Tên trận đấu</div>
+				<div class="col" th:text="${event.league}">Tên giải đấu</div>
+				<div class="col" th:text="${event.numsTicket}">Số lượng vé</div>
+			</div>
+		</section>
+
+	</div>
+	</main>
+
+
+	<footer th:replace="/fragments/footer :: footer"></footer>
+
+	<div th:replace="/fragments/footer :: script"></div>
+
+</body>
+</html>

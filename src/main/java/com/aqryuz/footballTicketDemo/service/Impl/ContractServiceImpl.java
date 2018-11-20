@@ -2,10 +2,11 @@ package com.aqryuz.footballTicketDemo.service.Impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-
-import javax.annotation.PostConstruct;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.EthAccounts;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tuples.generated.Tuple4;
@@ -22,10 +22,10 @@ import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.utils.Convert;
 
 import com.aqryuz.footballTicketDemo.entity.EventEntity;
-import com.aqryuz.footballTicketDemo.model.SellerWallet;
 import com.aqryuz.footballTicketDemo.model.TicketContract;
 import com.aqryuz.footballTicketDemo.service.ContractService;
 import com.aqryuz.footballTicketDemo.service.EventService;
+import com.aqryuz.footballTicketDemo.support.SellerWallet;
 
 @Service
 public class ContractServiceImpl implements ContractService{
@@ -45,7 +45,7 @@ public class ContractServiceImpl implements ContractService{
 		String hash = "QmX933nNLrJzysb6iH5o1NpRfUYnGfzbgg4RYeQ62MBy9m";
 
 		try {
-			contract = deploy(numsTicket, hash).sendAsync().get();
+			contract = deploy(numsTicket, hash);
 			String contractAddress = contract.getContractAddress();
 			EventEntity event = eventService.find(1L);
 			event.setContractHash(contractAddress);
@@ -59,9 +59,18 @@ public class ContractServiceImpl implements ContractService{
 				e.printStackTrace();
 			}
 	}
-
-	public RemoteCall<TicketContract> deploy(BigInteger numsTicket, String ipfsHash) {
-		return TicketContract.deploy(web3j, sellerWallet, new DefaultGasProvider(), numsTicket, ipfsHash);
+	@Override
+	public Contract load(String contractAddress) {
+		return load(contractAddress, SellerWallet.loadCredentials());
+	}
+	
+	public TicketContract deploy(BigInteger numsTicket, String ipfsHash) {
+		try {
+			contract =  TicketContract.deploy(web3j, sellerWallet, new DefaultGasProvider(), numsTicket, ipfsHash).sendAsync().get();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		return contract;
 	}
 
 	@Override
@@ -119,11 +128,20 @@ public class ContractServiceImpl implements ContractService{
 	public String getContractAddress() {
 		return this.contract.getContractAddress();
 	}
-
+	
 	@Override
-	public RemoteCall<Tuple4<String, String, BigInteger, BigInteger>> checkCustomerHistory(String addr) {
-		return this.contract.checkCustomerHistory(addr);
+	public List<Object> checkCustomerHistory(String addr) {
+		Tuple4<String,String,BigInteger,BigInteger> tuple4 = getCustomerHistory(addr);
+		return Arrays.asList(tuple4.getValue1(), tuple4.getValue2(), tuple4.getValue3(), tuple4.getValue4());
+	}
 
+	public Tuple4<String, String, BigInteger, BigInteger> getCustomerHistory(String addr) {
+		try {
+			return this.contract.checkCustomerHistory(addr).sendAsync().get();
+		} catch (InterruptedException | ExecutionException e) {
+			LOGGER.error("Call checkCustomerHistory function failed");
+			return null;
+		}
 	}
 
 	@Override

@@ -44,6 +44,11 @@ public class OrderRepositoryImpl implements OrderRepository{
 	public OrderEntity find(String customerAddress) {
 		return jsonDBTemplate.findById(customerAddress, OrderEntity.class);
 	}
+	
+	@Override
+	public OrderEntity find(Long id) {
+		return jsonDBTemplate.findById(id, OrderEntity.class);
+	}
 
 	@Override
 	public List<OrderEntity> findAll() {
@@ -55,4 +60,5 @@ public class OrderRepositoryImpl implements OrderRepository{
 		String jxQuery = String.format("/.[customerAddress='%s']", customerAddress);
 		return jsonDBTemplate.find(jxQuery, OrderEntity.class);
 	}
+
 }

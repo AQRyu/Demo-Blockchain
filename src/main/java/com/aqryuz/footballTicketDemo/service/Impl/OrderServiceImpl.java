@@ -39,6 +39,11 @@ public class OrderServiceImpl implements OrderService{
 	public OrderEntity find(String customerAddress) {
 		return orderRepository.find(customerAddress);
 	}
+	
+	@Override
+	public OrderEntity find(Long id) {
+		return orderRepository.find(id);
+	}
 
 	@Override
 	public List<OrderEntity> findAll() {
@@ -49,5 +54,6 @@ public class OrderServiceImpl implements OrderService{
 	public List<OrderEntity> findAllBy(String customerAddress) {
 		return orderRepository.findAllBy(customerAddress);
 	}
+
 
 }

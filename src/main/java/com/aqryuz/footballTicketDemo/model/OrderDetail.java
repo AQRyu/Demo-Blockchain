@@ -6,17 +6,19 @@ public class OrderDetail {
 	private String eventLeague;
 	private String ticketType;
 	private Integer numsTicketBought;
+	private Long orderId;
 
 
 
 	public OrderDetail(String customerAddress, String eventName, String eventLeague, String ticketType,
-			Integer numsTicketBought) {
+			Integer numsTicketBought, Long orderId) {
 		super();
 		this.customerAddress = customerAddress;
 		this.eventName = eventName;
 		this.eventLeague = eventLeague;
 		this.ticketType = ticketType;
 		this.numsTicketBought = numsTicketBought;
+		this.orderId = orderId;
 	}
 
 
@@ -50,6 +52,18 @@ public class OrderDetail {
 	}
 	public void setNumsTicketBought(Integer numsTicketBought) {
 		this.numsTicketBought = numsTicketBought;
+	}
+
+
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
 

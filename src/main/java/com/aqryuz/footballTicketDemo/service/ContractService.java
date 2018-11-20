@@ -1,19 +1,26 @@
 package com.aqryuz.footballTicketDemo.service;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.web3j.crypto.Credentials;
-import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.EthAccounts;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.tuples.generated.Tuple4;
 import org.web3j.tx.Contract;
+
+import com.aqryuz.footballTicketDemo.model.TicketContract;
 
 public interface ContractService {
 	public void deploy();
+	
+	public TicketContract deploy(BigInteger numsTicket, String ipfsHash);
 
 	public Contract load(Credentials sender);
+	
+	public Contract load(String contractAddress);
+
+	public Contract load(String contractAddress, Credentials sender);
 
 	public CompletableFuture<EthAccounts> getEthAccounts() throws Exception;
 
@@ -21,10 +28,8 @@ public interface ContractService {
 
 	public String getContractAddress();
 
-	public RemoteCall<Tuple4<String, String, BigInteger, BigInteger>> checkCustomerHistory(String addr);
+	public List<Object> checkCustomerHistory(String addr);
 
-	CompletableFuture<TransactionReceipt> buyTicket(Long _ticketId, Double _ticketPrice, Long _amount,
+	public CompletableFuture<TransactionReceipt> buyTicket(Long _ticketId, Double _ticketPrice, Long _amount,
 			String _customerId);
-
-	Contract load(String contractAddress, Credentials sender);
 }

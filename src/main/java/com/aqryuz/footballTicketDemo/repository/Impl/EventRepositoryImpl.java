@@ -23,14 +23,12 @@ public class EventRepositoryImpl implements EventRepository{
 
 	@Override
 	public void insert(EventEntity event) {
-		EventEntity ee = new EventEntity(event);
-		jsonDBTemplate.insert(ee);
+		jsonDBTemplate.insert(event);
 	}
 
 	@Override
 	public void upsert(EventEntity event) {
-		EventEntity ee = new EventEntity(event);
-		jsonDBTemplate.upsert(ee);
+		jsonDBTemplate.upsert(event);
 	}
 
 	@Override

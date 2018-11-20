@@ -2,6 +2,7 @@ package com.aqryuz.footballTicketDemo.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.aqryuz.footballTicketDemo.model.Ticket;
@@ -21,26 +22,40 @@ public class EventEntity implements Serializable{
 	private String league;
 	private String homeTeam;
 	private String awayTeam;
-	private Long timestamp;
+	private String stadium;
+	private String date;
+	private String time;
 	private List<Ticket> tickets = new ArrayList<>();
 	private Integer numsTicket;
 	private String IpfsHash;
 	private String contractHash;
 	
 	public EventEntity() {
+		super();
+		this.tickets = Arrays.asList(
+				new Ticket(0L, "A", 0.1),
+				new Ticket(1L, "B", 0.2),
+				new Ticket(2L, "C", 0.3),
+				new Ticket(3L, "D", 0.4)
+				);
 	}
 	
-	public EventEntity(EventEntity event) {
-		this.id = event.getId();
-		this.name = event.getName();
-		this.league = event.getLeague();
-		this.homeTeam = event.getHomeTeam();
-		this.awayTeam = event.getAwayTeam();
-		this.timestamp = event.getTimestamp();
-		this.tickets = event.tickets;
-		this.numsTicket = event.getNumsTicket();
-		this.IpfsHash = event.IpfsHash;
-		this.contractHash = event.contractHash;
+	public EventEntity(Long id, String name, String league, String homeTeam, String awayTeam, String stadium,
+			String date, String time, List<Ticket> tickets, Integer numsTicket, String ipfsHash,
+			String contractHash) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.league = league;
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+		this.stadium = stadium;
+		this.date = date;
+		this.time = time;
+		this.tickets = tickets;
+		this.numsTicket = numsTicket;
+		IpfsHash = ipfsHash;
+		this.contractHash = contractHash;
 	}
 
 	public Long getId() {
@@ -83,14 +98,6 @@ public class EventEntity implements Serializable{
 		this.awayTeam = awayTeam;
 	}
 
-	public Long getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public List<Ticket> getTickets() {
 		return tickets;
 	}
@@ -121,6 +128,30 @@ public class EventEntity implements Serializable{
 
 	public void setIpfsHash(String ipfsHash) {
 		IpfsHash = ipfsHash;
+	}
+
+	public String getStadium() {
+		return stadium;
+	}
+
+	public void setStadium(String stadium) {
+		this.stadium = stadium;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 	

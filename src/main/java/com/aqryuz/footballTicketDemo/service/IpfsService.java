@@ -2,8 +2,6 @@ package com.aqryuz.footballTicketDemo.service;
 
 import java.io.IOException;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,7 @@ public class IpfsService {
 		NamedStreamable.ByteArrayWrapper file = new NamedStreamable.ByteArrayWrapper(converter.fromEventToByteArray(event));
 		try {
 			MerkleNode result = ipfs.add(file).get(0);
-			LOGGER.info("add file successfully");
+			LOGGER.info(result.toJSONString());
 			return result.hash.toString();
 		} catch (IOException e) {
 			LOGGER.error("Add file error, check again");
