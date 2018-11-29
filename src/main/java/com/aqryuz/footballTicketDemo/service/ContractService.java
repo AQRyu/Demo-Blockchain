@@ -2,7 +2,6 @@ package com.aqryuz.footballTicketDemo.service;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.core.methods.response.EthAccounts;
@@ -22,14 +21,14 @@ public interface ContractService {
 
 	public Contract load(String contractAddress, Credentials sender);
 
-	public CompletableFuture<EthAccounts> getEthAccounts() throws Exception;
+	public EthAccounts getEthAccounts() throws Exception;
 
-	public CompletableFuture<TransactionReceipt> withdraw();
+	public TransactionReceipt killEvent();
 
 	public String getContractAddress();
 
-	public List<Object> checkCustomerHistory(String addr);
+	public List<Object> getCustomerDetail(String addr);
 
-	public CompletableFuture<TransactionReceipt> buyTicket(Long _ticketId, Double _ticketPrice, Long _amount,
+	public TransactionReceipt buyTicket(Long _ticketId, Double _ticketPrice, Long _amount,
 			String _customerId);
 }

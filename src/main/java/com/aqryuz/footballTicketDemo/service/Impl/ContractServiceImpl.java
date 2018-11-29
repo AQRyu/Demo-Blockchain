@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class ContractServiceImpl implements ContractService{
 	@Autowired
 	EventService eventService;
 
-//	@PostConstruct
+	//	@PostConstruct
 	public void deploy()  {
 
 		BigInteger numsTicket = BigInteger.valueOf(1000L);
@@ -63,12 +62,12 @@ public class ContractServiceImpl implements ContractService{
 	public Contract load(String contractAddress) {
 		return load(contractAddress, SellerWallet.loadCredentials());
 	}
-	
+
 	public TicketContract deploy(BigInteger numsTicket, String ipfsHash) {
 		try {
 			contract =  TicketContract.deploy(web3j, sellerWallet, new DefaultGasProvider(), numsTicket, ipfsHash).sendAsync().get();
 		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+			LOGGER.error("error on deploy contract");
 		}
 		return contract;
 	}
@@ -85,7 +84,7 @@ public class ContractServiceImpl implements ContractService{
 	}
 
 	@Override
-	public CompletableFuture<TransactionReceipt> buyTicket(Long _ticketId, Double _ticketPrice, Long _amount, String _customerId) {
+	public TransactionReceipt buyTicket(Long _ticketId, Double _ticketPrice, Long _amount, String _customerId) {
 		//Convert to BigInteger
 		BigInteger amount = BigInteger.valueOf(_amount);
 		BigInteger ticketId = BigInteger.valueOf(_ticketId);
@@ -99,49 +98,53 @@ public class ContractServiceImpl implements ContractService{
 			LOGGER.info("Buy ticket successfully, check at " + transactionReceipt.getTransactionHash());
 		} catch (Exception e) {
 			e.printStackTrace();
-			LOGGER.info("Error on transaction " + transactionReceipt.getTransactionHash());
+			LOGGER.error("Error on transaction " + transactionReceipt.getTransactionHash());
 		}
-		return CompletableFuture.completedFuture(transactionReceipt);
+		return transactionReceipt;
 	}
 
 	@Override
-	public CompletableFuture<TransactionReceipt> withdraw() {
+	public TransactionReceipt killEvent() {
 		TransactionReceipt transactionReceipt = null;
 		try {
-			transactionReceipt = this.contract.withdraw().send();
+			transactionReceipt = this.contract.killEvent().send();
 			LOGGER.info("Withdraw successfully, check at " + transactionReceipt.getTransactionHash());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("call killEvent func error");
 		}
-		return CompletableFuture.completedFuture(transactionReceipt);
+		return transactionReceipt;
 	}
 
-	public CompletableFuture<EthAccounts> getEthAccounts() throws Exception {
+	public EthAccounts getEthAccounts(){
 		EthAccounts result = new EthAccounts();
-		result = this.web3j.ethAccounts()
-				.sendAsync() 
-				.get();
-		return CompletableFuture.completedFuture(result);
+		try {
+			result = this.web3j.ethAccounts()
+					.sendAsync() 
+					.get();
+		} catch (Exception e) {
+			LOGGER.error("Call getEthAccounts error");
+		}
+		return result;
 	}
 
 	@Override
 	public String getContractAddress() {
 		return this.contract.getContractAddress();
 	}
-	
+
 	@Override
-	public List<Object> checkCustomerHistory(String addr) {
-		Tuple4<String,String,BigInteger,BigInteger> tuple4 = getCustomerHistory(addr);
+	public List<Object> getCustomerDetail(String addr) {
+		Tuple4<String,String,BigInteger,BigInteger> tuple4 = customerDetail(addr);
 		return Arrays.asList(tuple4.getValue1(), tuple4.getValue2(), tuple4.getValue3(), tuple4.getValue4());
 	}
 
-	public Tuple4<String, String, BigInteger, BigInteger> getCustomerHistory(String addr) {
+	public Tuple4<String, String, BigInteger, BigInteger> customerDetail(String addr) {
 		try {
-			return this.contract.checkCustomerHistory(addr).sendAsync().get();
+			return this.contract.customerDetail(addr).sendAsync().get();
 		} catch (InterruptedException | ExecutionException e) {
 			LOGGER.error("Call checkCustomerHistory function failed");
-			return null;
 		}
+		return null;
 	}
 
 	@Override

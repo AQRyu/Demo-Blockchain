@@ -1,5 +1,8 @@
 package com.aqryuz.footballTicketDemo.entity;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
 
@@ -11,8 +14,11 @@ public class OrderEntity {
 	private Long eventId;
 	private Long ticketId;
 	private Integer ticketAmount;
+	private Date timestamp;
 
 	public OrderEntity() {
+		this.timestamp = Date.valueOf(LocalDate.now());
+		
 	}
 
 	public OrderEntity(Long id, String customerAddress, Long eventId, Long ticketId, Integer ticketAmount) {
@@ -22,8 +28,9 @@ public class OrderEntity {
 		this.eventId = eventId;
 		this.ticketId = ticketId;
 		this.ticketAmount = ticketAmount;
+		this.timestamp =Date.valueOf(LocalDate.now());
 	}
-	
+
 	public OrderEntity(OrderEntity order) {
 		super();
 		this.id = order.id;
@@ -71,6 +78,14 @@ public class OrderEntity {
 
 	public void setTicketAmount(Integer ticketAmount) {
 		this.ticketAmount = ticketAmount;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 

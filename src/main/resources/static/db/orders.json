@@ -1,4 +1,2 @@
 {"schemaVersion":"1.0"}
-{"id":0,"customerAddress":"0x30e097c22b1fbba54f71358dc620f9e61edace0d","eventId":1,"ticketId":0,"ticketAmount":3}
-{"id":1,"customerAddress":"0xdcde0b5963927c0da0057019771ce699ead3cb71","eventId":1,"ticketId":1,"ticketAmount":2}
-{"id":2,"customerAddress":"0x30e097c22b1fbba54f71358dc620f9e61edace0d","eventId":2,"ticketId":1,"ticketAmount":3}
+{"id":0,"customerAddress":"0x30e097c22b1fbba54f71358dc620f9e61edace0d","eventId":1,"ticketId":0,"ticketAmount":1,"timestamp":null}

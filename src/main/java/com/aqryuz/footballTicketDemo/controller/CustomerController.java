@@ -1,9 +1,9 @@
 package com.aqryuz.footballTicketDemo.controller;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import com.aqryuz.footballTicketDemo.entity.EventEntity;
 import com.aqryuz.footballTicketDemo.entity.OrderEntity;
+import com.aqryuz.footballTicketDemo.model.ConfirmPage;
 import com.aqryuz.footballTicketDemo.model.OrderDetail;
 import com.aqryuz.footballTicketDemo.model.Ticket;
 import com.aqryuz.footballTicketDemo.service.ContractService;
@@ -40,11 +42,6 @@ public class CustomerController {
 	@Autowired
 	private QRCodeGeneratorSupport qrcode; 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
-	
-	@GetMapping()
-	public String getHome() {
-		return "customerIndex";
-	}
 
 	@GetMapping("/buyTicket/{id}")
 	public String buyTicket(@PathVariable Long id, Model model) {
@@ -59,67 +56,80 @@ public class CustomerController {
 		Ticket ticket = event.getTickets().get(ticketId.intValue());
 		model.addAttribute("ticket", ticket);	
 		model.addAttribute("event", event);
+		model.addAttribute("confirmPage", new ConfirmPage());
 		return "confirm";
 	}
 
 	@PostMapping("/confirm")
-	public String doConfirm(Long eventId, Long ticketId, Integer ticketAmount, String customerId, Double price, String privateKey, Model model) throws Exception {
+	public String doConfirm(Model model, Long eventId, Long ticketId, @Valid ConfirmPage confirmPage, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			EventEntity event = eventService.find(eventId);
+			Ticket ticket = event.getTickets().get(ticketId.intValue());
+			model.addAttribute("ticket", ticket);	
+			model.addAttribute("event", event);
+			model.addAttribute("confirmPage", confirmPage);
+			return "confirm";
+		}
 		//Confirm has 2 stage:
 		//1. load contract and call buyTicket to update on contract
 		//2. save into OrderDB
 		//Get event
-		EventEntity event = eventService.find(eventId);
-		
-		//Customer load contract
-		Credentials customer = Credentials.create(privateKey);
-		String contractAddress = event.getContractHash();
-		LOGGER.info("Load contract address" + contractAddress);
-		contractService.load(contractAddress, customer);
+		try {
+			EventEntity event = eventService.find(eventId);
 
-		//prepare argument for transaction
-		Long _ticketId = ticketId;
-		Double _ticketPrice = price;
-		Integer _amount = ticketAmount;
-		String _customerId = customerId;
+			//Customer load contract
+			Credentials customer = Credentials.create(confirmPage.getPrivateKey());
+			String contractAddress = event.getContractHash();
+			contractService.load(contractAddress, customer);
 
-		CompletableFuture<TransactionReceipt> tr = contractService.buyTicket(_ticketId, _ticketPrice, _amount.longValue(), _customerId);
-		
-	//Save to db
-		Long size = (long) orderService.findAll().size();
-		OrderEntity order = new OrderEntity(size, customer.getAddress().toLowerCase(), eventId, ticketId, ticketAmount);
-		orderService.insert(order);
-		
-		
-		String trxHash = tr.get().getTransactionHash();
-		URL etherscan = new URL("https://rinkeby.etherscan.io/tx/" + trxHash);
-		model.addAttribute("etherscan",etherscan);
-		return "buyTicketSuccessfully";
+			//prepare argument for transaction
+			Long _ticketId = ticketId;
+			Double _ticketPrice = confirmPage.getPrice();
+			long _amount = confirmPage.getTicketAmount();
+			String _customerId = confirmPage.getCustomerId();
+
+			TransactionReceipt tr = contractService.buyTicket(_ticketId, _ticketPrice, _amount, _customerId);
+			LOGGER.info(tr.getFrom() + "bought ticket from " + tr.getContractAddress() + "contract!");
+			//Save to db
+			Long size = (long) orderService.findAll().size();
+			OrderEntity order = new OrderEntity(size, customer.getAddress().toLowerCase(), eventId, ticketId, confirmPage.getTicketAmount());
+			orderService.insert(order);
+		} catch (Exception e) {
+			EventEntity event = eventService.find(eventId);
+			Ticket ticket = event.getTickets().get(ticketId.intValue());
+			model.addAttribute("ticket", ticket);	
+			model.addAttribute("event", event);
+			model.addAttribute("error","có lỗi khi xác nhận mua vé!");
+			model.addAttribute("confirmPage", confirmPage);
+			return "confirm";
+		}
+		return "redirect:/";
 	}
 
 	@GetMapping("/getHistory")
 	public String getCheckCustomerHistoryPage() {
 		return "getHistory";
 	}
-	
+
 	@PostMapping("/getHistory")
-	public String doCheckCustomerHistory(String addr, Model model) throws Exception {
+	public String doCheckCustomerHistory(String addr, Model model){
 		//Join json file manual => need to be fixed
-		
+
 		List<OrderEntity> orders = orderService.findAllBy(addr.toLowerCase());
 		List<OrderDetail> customers = new ArrayList<>();
 		for(OrderEntity order : orders) {
 			EventEntity event = eventService.find(order.getEventId());
 			Ticket ticket = event.getTickets().get(order.getTicketId().intValue());
-			OrderDetail orderDetail = new OrderDetail(addr, event.getName(), event.getLeague(), ticket.getType(), order.getTicketAmount(), order.getId());
+			OrderDetail orderDetail = new OrderDetail(addr, event.getName(), event.getLeague(), ticket.getType(), order.getTicketAmount(), order.getId(), order.getTimestamp());
 			customers.add(orderDetail);
 		}
-		
+
 		model.addAttribute("customers",customers);
 
 		return "showCustomerHistory";
 	}
-	
-	
+
+
 	@GetMapping(value =  "/qrcode/{orderId}", produces = MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
 	public byte[] getQRCodePage(@PathVariable Long orderId) throws Exception {
@@ -128,7 +138,7 @@ public class CustomerController {
 		OrderEntity orderEntity = orderService.find(orderId);
 		String contractHash = eventService.find(orderEntity.getEventId()).getContractHash();
 		contractService.load(contractHash);
-		String code = contractService.checkCustomerHistory(orderEntity.getCustomerAddress()).toString();
+		String code = contractService.getCustomerDetail(orderEntity.getCustomerAddress()).toString();
 		return qrcode.getQRCodeImage(code, 350, 350);
 	}
 }

@@ -42,7 +42,7 @@ public class MerchantController {
 	public String doWithdraw() {
 		Credentials seller = SellerWallet.loadCredentials();
 		contractService.load(seller);
-		contractService.withdraw();
+		contractService.killEvent();
 		return "redirect:/";
 	}
 	

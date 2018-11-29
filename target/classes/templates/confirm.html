@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="vi">
+
 <head th:replace="/fragments/header :: head">
 </head>
+
 <body>
 	<header th:replace="/fragments/header :: navbar"></header>
 	<main class="mt-5 p-4">
@@ -12,48 +15,52 @@
 
 			<h2 class="my-5 h2 text-center">Xác nhận mua vé</h2>
 			<div class="card">
-				<form class="form-horizontal card-body"
-					th:action="@{/customer/confirm}" method="post">
-					<input type="hidden" th:value="${event.id}" name="eventId" />
-					<input type="hidden" th:value="${ticket.id}" name="ticketId" />
+				<form class="form-horizontal card-body" th:object=${confirmPage}
+					th:action="@{/customer/confirm}" method="post" autocomplete="on">
+					<input type="hidden" th:value="${event.id}" name="eventId" /> <input
+						type="hidden" th:value="${ticket.id}" name="ticketId" />
+					<div th:if="${error}">
+						<div class="alert alert-danger" th:value=${error}></div>
+					</div>
 
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Email:</label>
 						<div class="col-sm-12">
-							<input type="text" name="email" class="form-control"
-								th:value="${email}" />
+							<input type="email" th:field="*{email}" class="form-control"
+								autofocus />
 						</div>
+						<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Lỗi email</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Số chứng minh thư:</label>
 						<div class="col-sm-12">
-							<input type="text" name="customerId" class="form-control"
-								th:value="${customerId}" />
+							<input type="number" class="form-control" th:field="*{customerId}"
+								 required />
 						</div>
+						<div th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}">Lỗi số cmnd</div>
 					</div>
 
 					<div class="form-group row">
 						<div class="col-md-6">
 							<label class=" control-label">Số lượng vé:</label> <select
-								class="custom-select d-block w-100" id="ticketAmount"
-								name="ticketAmount">
-								<option value="1" selected>1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
+								class="custom-select d-block w-100" id="ticketAmount" name="ticketAmount">
+								<option th:value="1" th:text="1" selected>1</option>
+								<option th:value="2" th:text="2">2</option>
+								<option th:value="3" th:text="3">3</option>
 							</select>
 						</div>
 
 						<div class="col-md-6">
 							<label class=" control-label">Giá vé:</label> <input type="text"
-								name="price" class="form-control" readonly th:value="${ticket.price}" />
+								class="form-control" name="price" th:value="${ticket.price}" readonly />
 						</div>
 					</div>
 					<div class="form-group row mb-4">
 						<label class="col-sm-2 control-label">Private key:</label>
 						<div class="col-sm-12">
-							<input type="password" name="privateKey" class="form-control"
-								th:value="${privateKey}" required />
+							<input type="password" class="form-control"
+								th:field="*{privateKey}" required />
 						</div>
 					</div>
 					<hr class="mb-4">
@@ -75,4 +82,5 @@
 	<div th:replace="/fragments/footer :: script"></div>
 
 </body>
+
 </html>

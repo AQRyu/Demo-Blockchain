@@ -1,48 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head th:replace="/fragments/header :: head">
 </head>
+
 <body>
 	<header th:replace="/fragments/header :: navbar"></header>
 	<main class="mt-5 pt-4">
-	<div class="container">
-		<section>
-			<div class="row d-flex justify-content-center">
-				<div class="col-md-8 text-justify">
-					<h2 class="my-5 h2 text-center" th:text="${event.league}">V
-						League 2018</h2>
-					<br>
-					<p>
-						<strong><em>16-06-2018:</em></strong>
-					</p>
-					<p th:text="${event.name}">- 17:00: XSKT Cần Thơ - FLC Thanh
-						Hóa</p>
-					<p></p>
-				</div>
+		<div class="container">
+			<section>
+				<div class="row d-flex justify-content-center">
+					<div class="col-md-8 text-justify">
+						<h2 class="my-5 h2 text-center" th:text="${event.league}">V
+							League 2018</h2>
+						<br>
+						<p>
+							<strong><em>16-06-2018:</em></strong>
+						</p>
+						<p th:text="${event.name}">- 17:00: XSKT Cần Thơ - FLC Thanh
+							Hóa</p>
+						<p></p>
+					</div>
 
-				<!-- Row 2 -->
-				<div class="col-md-8 text-justify">
-					<table class="table table-borderless">
-						<tr>
-							<td>Mã vé</td>
-							<td>Giá vé (Ethereum)</td>
-							<td>Loại vé</td>
-							<td></td>
-						</tr>
-						<tr th:each="ticket : ${event.tickets}">
-							<td th:text="${ticket.id}">Vé loại 1:</td>
-							<td th:text=${ticket.price}>Ethereum</td>
-							<td th:text=${ticket.type}></td>
-							<td><a th:href="@{/customer/confirm/{eventId}/{ticketId}(eventId=${event.id},ticketId=${ticket.id})}"><button
-										type="button" class="btn btn-primary">Mua</button></a></td>
-						</tr>
-					</table>
+					<!-- Row 2 -->
+					<div class="col-md-8 text-justify">
+						<table class="table table-borderless">
+							<tr>
+								<td>Mã vé</td>
+								<td>Giá vé (Ethereum)</td>
+								<td>Loại vé</td>
+								<td></td>
+							</tr>
+							<tr th:each="ticket : ${event.tickets}">
+								<td th:text="${ticket.id}">Vé loại 1:</td>
+								<td th:text=${ticket.price}>Ethereum</td>
+								<td th:text=${ticket.type}></td>
+								<td><a th:href="@{/customer/confirm/{eventId}/{ticketId}(eventId=${event.id},ticketId=${ticket.id})}"><button
+										 type="button" class="btn btn-primary">Mua</button></a></td>
+							</tr>
+						</table>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 
-	</div>
+		</div>
 	</main>
 
 
@@ -51,6 +52,5 @@
 	<div th:replace="/fragments/footer :: script"></div>
 
 </body>
+
 </html>
-
-

@@ -1,74 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head th:replace="/fragments/header :: head">
 </head>
+
 <body>
 	<header th:replace="/fragments/header :: header"></header>
 	<main>
-	<div class="container">
-		<section>
-			<h2 class="my-5 h3 text-center">Vòng Bảng:</h2>
+		<div class="container">
+			<section>
+				<h2 class="my-5 h3 text-center">Vòng Bảng:</h2>
 
-			<!--Title-->
-			<div class="row features-small mt-5 wow fadeIn"
-				style="visibility: visible; animation-name: fadeIn;">
+				<!--Title-->
+				<div class="row features-small mt-5 wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
 
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">Trận đấu</div>
-				<!--/Grid column-->
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">Trận đấu</div>
+					<!--/Grid column-->
 
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">Thời gian</div>
-				<!--/Grid column-->
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">Thời gian</div>
+					<!--/Grid column-->
 
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">Địa điểm</div>
-				<!--/Grid column-->
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">Địa điểm</div>
+					<!--/Grid column-->
 
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6"></div>
-				<!--/Grid column-->
-			</div>
-			<!--/Title-->
-			<hr>
-
-			<!--Row1-->
-			<div class="row features-small mt-5 wow fadeIn" th:each="event : ${events}"
-				style="visibility: visible; animation-name: fadeIn;">
-
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">
-					<div class="row" th:text="${event.name}">XSKT Cần Thơ - FLC Thanh Hóa</div>
-					<div class="row" th:text="${event.league}">V.LEAGUE</div>
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6"></div>
+					<!--/Grid column-->
 				</div>
-				<!--/Grid column-->
+				<!--/Title-->
+				<hr>
 
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">
-					<div class="row" th:text="${event.date}">16-06-2018</div>
-					<div class="row" th:text=${event.time}>17h00</div>
+				<!--Row1-->
+				<div class="row features-small mt-5 wow fadeIn" th:each="event : ${events}" style="visibility: visible; animation-name: fadeIn;">
+
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">
+						<div class="row" th:text="${event.name}">XSKT Cần Thơ - FLC Thanh Hóa</div>
+						<div class="row" th:text="${event.league}">V.LEAGUE</div>
+					</div>
+					<!--/Grid column-->
+
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">
+						<div class="row" th:text="${event.date}">16-06-2018</div>
+						<div class="row" th:text=${event.time}>17h00</div>
+					</div>
+					<!--/Grid column-->
+
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">
+						<div class="row" th:text="${event.stadium}">Sân vận động Cần Thơ</div>
+					</div>
+					<!--/Grid column-->
+
+					<!--Grid column-->
+					<div class="col-xl-3 col-lg-6">
+						<a th:href="@{/customer/buyTicket/{id}(id=${event.id})}"><button type="button" class="btn btn-primary">Mua vé</button></a>
+					</div>
+					<!--/Grid column-->
 				</div>
-				<!--/Grid column-->
+				<!--/Row1-->
+				<hr>
+			</section>
 
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">
-					<div class="row" th:text="${event.stadium}">Sân vận động Cần Thơ</div>
-				</div>
-				<!--/Grid column-->
-
-				<!--Grid column-->
-				<div class="col-xl-3 col-lg-6">
-					<a th:href="@{/customer/buyTicket/{id}(id=${event.id})}" ><button type="button"
-							class="btn btn-primary">Mua vé</button></a>
-				</div>
-				<!--/Grid column-->
-			</div>
-			<!--/Row1-->
-			<hr>
-		</section>
-
-	</div>
+		</div>
 	</main>
 
 
@@ -77,4 +75,5 @@
 	<div th:replace="/fragments/footer :: script"></div>
 
 </body>
+
 </html>

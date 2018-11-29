@@ -56,7 +56,7 @@ public class EventController {
 		entity.setNumsTicket(500);
 		entity.setTickets(tickets);
 
-		entity.setDate(Date.valueOf(LocalDate.now()).toString());
+		entity.setDate(Date.valueOf(LocalDate.now()));
 		entity.setTime(Time.valueOf(LocalTime.now()).toString());
 
 		eventService.upsert(entity);

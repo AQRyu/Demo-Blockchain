@@ -1,6 +1,7 @@
 package com.aqryuz.footballTicketDemo.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,7 @@ public class EventEntity implements Serializable{
 	private String homeTeam;
 	private String awayTeam;
 	private String stadium;
-	private String date;
+	private Date date;
 	private String time;
 	private List<Ticket> tickets = new ArrayList<>();
 	private Integer numsTicket;
@@ -41,7 +42,7 @@ public class EventEntity implements Serializable{
 	}
 	
 	public EventEntity(Long id, String name, String league, String homeTeam, String awayTeam, String stadium,
-			String date, String time, List<Ticket> tickets, Integer numsTicket, String ipfsHash,
+			Date date, String time, List<Ticket> tickets, Integer numsTicket, String ipfsHash,
 			String contractHash) {
 		super();
 		this.id = id;
@@ -138,11 +139,11 @@ public class EventEntity implements Serializable{
 		this.stadium = stadium;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
