@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.aqryuz.footballTicketDemo.entity.EventEntity;
 
 
-@Service
 public interface EventService {
 	public void createCollection();
 

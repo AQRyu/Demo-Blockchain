@@ -1,108 +1,176 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	lang="vi">
 <head th:replace="/fragments/header :: head">
 </head>
 <body>
 	<header th:replace="/fragments/header :: navbar"></header>
 	<main class="mt-5 p-4">
 	<section>
-		<div class="container wow fadeIn"
+		<div
+			class="container wow fadeIn"
 			style="visibility: visible; animation-name: fadeIn;">
-
 			<h2 class="my-5 h2 text-center">Giao diện tạo trận đấu</h2>
 			<div class="card">
-				<form class="form-horizontal card-body"
-					th:object="${event}" th:action="@{/merchant/createTicket}" method="post">
+				<form
+					class="form-horizontal card-body"
+					th:object="${event}"
+					th:action="@{/admin/createTicket}"
+					method="post">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Mã trận:</label>
 						<div class="col-sm-12">
-							<input type="text" name="id" class="form-control"
-								th:value="${event.id}" />
+							<input
+								type="text"
+								th:field="*{id}"
+								class="form-control"
+								autofocus />
+							<div
+								class="error"
+								th:if="${#fields.hasErrors('id')}"
+								th:errors="*{id}">Lỗi id</div>
 						</div>
 					</div>
-
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Tên trận:</label>
 						<div class="col-sm-12">
-							<input type="text" name="name" class="form-control"
-								th:value="${event.name}" />
+							<input
+								type="text"
+								name="name"
+								class="form-control"
+								th:field="*{name}" />
+							<div
+								class="error"
+								th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}">Lỗi name</div>
 						</div>
 					</div>
-
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Giải đấu:</label>
 						<div class="col-sm-12">
-							<input type="text" name="league" class="form-control"
-								th:value="${event.league}" />
+							<input
+								type="text"
+								name="league"
+								class="form-control"
+								th:field="*{league}" />
+							<div
+								class="error"
+								th:if="${#fields.hasErrors('league')}"
+								th:errors="*{league}">Lỗi league</div>
 						</div>
 					</div>
-
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">Đội nhà:</label>
-						<div class="col-sm-12">
-							<input type="text" name="homeTeam" class="form-control"
-								th:value="${event.homeTeam}" />
-						</div>
-					</div>
-
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">Đội khách:</label>
-						<div class="col-sm-12">
-							<input type="text" name="awayTeam" class="form-control"
-								th:value="${event.awayTeam}" />
-						</div>
-					</div>
-
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Sân vận động:</label>
 						<div class="col-sm-12">
-							<input type="text" name="stadium" class="form-control"
-								th:value="${event.stadium}" />
+							<input
+								type="text"
+								name="stadium"
+								class="form-control"
+								th:field="*{stadium}" />
+							<div
+								class="error"
+								th:if="${#fields.hasErrors('stadium')}"
+								th:errors="*{stadium}">Lỗi stadium</div>
 						</div>
 					</div>
-
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">Tổng số lượng vé:</label>
 						<div class="col-sm-12">
-							<input type="text" name="numsTicket" class="form-control"
-								th:value="${event.numsTicket}" />
+							<input
+								type="text"
+								name="numsTicket"
+								class="form-control"
+								th:field="*{numsTicket}" />
+							<div
+								class="error"
+								th:if="${#fields.hasErrors('numsTicket')}"
+								th:errors="*{numsTicket}">Lỗi numsTicket</div>
 						</div>
 					</div>
-					
+					<div class="form-group row">
+						<div class="col">
+							<label class="col-sm-4 control-label">Đội nhà:</label>
+							<div class="col-sm-12">
+								<input
+									type="text"
+									name="homeTeam"
+									class="form-control"
+									th:field="*{homeTeam}" />
+								<div
+									class="error"
+									th:if="${#fields.hasErrors('homeTeam')}"
+									th:errors="*{homeTeam}">Lỗi homeTeam</div>
+							</div>
+						</div>
+						<div class="col">
+							<label class="col-sm-4 control-label">Đội khách:</label>
+							<div class="col-sm-12">
+								<input
+									type="text"
+									name="awayTeam"
+									class="form-control"
+									th:field="*{awayTeam}" />
+								<div
+									class="error"
+									th:if="${#fields.hasErrors('awayTeam')}"
+									th:errors="*{awayTeam}">Lỗi awayTeam</div>
+							</div>
+						</div>
+					</div>
 					<div class="form-group row">
 						<div class="col-md-6">
 							<label class="col-sm-3 control-label">Ngày:</label>
 							<div class="col-sm-12">
-								<input type="date" name="date" class="form-control"
-									th:value="${event.date}" />
+								<input
+									type="date"
+									name="date"
+									class="form-control"
+									th:field="*{date}" />
+								<div
+									class="error"
+									th:if="${#fields.hasErrors('date')}"
+									th:errors="*{date}">Lỗi date</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<label class="col-sm-3 control-label">Giờ:</label>
 							<div class="col-sm-12">
-								<input type="time" name="time" class="form-control"
-									th:value="${event.time}" />
+								<input
+									type="time"
+									name="time"
+									class="form-control"
+									th:field="*{time}" />
+								<div
+									class="error"
+									th:if="${#fields.hasErrors('time')}"
+									th:errors="*{time}">Lỗi time</div>
 							</div>
 						</div>
 					</div>
-
 					<hr class="mb-4">
-					<div class="row mb-4"><h3>Cập nhật giá vé</h3></div>
-
+					<div class="row mb-4">
+						<h3>Cập nhật giá vé</h3>
+					</div>
 					<div class="form-group row">
 						<div class="col-md-6">
 							<label class="col-sm-3 control-label">Vé loại A:</label>
 							<div class="col-sm-12">
-								<input type="text" name="ticketA" class="form-control"
+								<input
+									type="text"
+									name="ticketA"
+									class="form-control"
 									th:value="${event.tickets.get(0).price}" />
 							</div>
 						</div>
-						
 						<div class="col-md-6">
 							<label class="col-sm-3 control-label">Vé loại B:</label>
 							<div class="col-sm-12">
-								<input type="text" name="ticketB" class="form-control"
+								<input
+									type="text"
+									name="ticketB"
+									class="form-control"
 									th:value="${event.tickets.get(1).price}" />
 							</div>
 						</div>
@@ -111,15 +179,20 @@
 						<div class="col-md-6">
 							<label class="col-sm-3 control-label">Vé loại C:</label>
 							<div class="col-sm-12">
-								<input type="text" name="ticketC" class="form-control"
+								<input
+									type="text"
+									name="ticketC"
+									class="form-control"
 									th:value="${event.tickets.get(2).price}" />
 							</div>
 						</div>
-						
 						<div class="col-md-6">
 							<label class="col-sm-3 control-label">Vé loại D:</label>
 							<div class="col-sm-12">
-								<input type="text" name="ticketD" class="form-control"
+								<input
+									type="text"
+									name="ticketD"
+									class="form-control"
 									th:value="${event.tickets.get(3).price}" />
 							</div>
 						</div>
@@ -127,7 +200,8 @@
 					<hr class="mb-4">
 					<div class="form-group row">
 						<div class="col-sm-2">
-							<button type="submit"
+							<button
+								type="submit"
 								class="btn btn-primary btn-lg btn-block waves-effect waves-light">Xác
 								nhận</button>
 						</div>
@@ -139,8 +213,6 @@
 	</section>
 	</main>
 	<footer th:replace="/fragments/footer :: footer"></footer>
-
 	<div th:replace="/fragments/footer :: script"></div>
-
 </body>
 </html>

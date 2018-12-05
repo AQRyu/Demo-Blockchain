@@ -18,14 +18,22 @@ import com.aqryuz.footballTicketDemo.service.EventService;
 public class HomeController {
 	@Autowired
 	private EventService eventService;
-	@GetMapping("/")
+	@GetMapping(value = {"","index", "home"})
 	public String index(Model model) {
 		List<EventEntity> events = eventService.findAll();
 		Collections.reverse(events);
-		events = events.stream().filter(e -> e.getDate().after(Date.valueOf(LocalDate.now())))
+		events = events
+				.stream()
+				.filter(e -> Date.valueOf(e.getDate()).after(Date.valueOf(LocalDate.now())))
 		.collect(Collectors.toList());
 		model.addAttribute("events",events);
 		return "index";
 	}
 	
+	@GetMapping(value = "admin")
+	public String home(Model model) {
+		List<EventEntity> events = eventService.findAll();
+		model.addAttribute("events", events);
+		return "adminIndex";
+	}
 }

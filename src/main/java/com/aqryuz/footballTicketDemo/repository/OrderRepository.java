@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.aqryuz.footballTicketDemo.entity.OrderEntity;
 
-
-public interface OrderRepository {
+public interface OrderRepository{
 	public void createCollection();
 	
 	public void insert(OrderEntity order);

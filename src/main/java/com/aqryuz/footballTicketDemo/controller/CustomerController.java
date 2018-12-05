@@ -31,7 +31,7 @@ import com.aqryuz.footballTicketDemo.service.OrderService;
 import com.aqryuz.footballTicketDemo.support.QRCodeGeneratorSupport;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("customer")
 public class CustomerController {
 	@Autowired
 	ContractService contractService;
@@ -43,14 +43,14 @@ public class CustomerController {
 	private QRCodeGeneratorSupport qrcode; 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
-	@GetMapping("/buyTicket/{id}")
+	@GetMapping("buyTicket/{id}")
 	public String buyTicket(@PathVariable Long id, Model model) {
 		EventEntity event = eventService.find(id);
 		model.addAttribute("event",event);
 		return "buyTicket";
 	}
 
-	@GetMapping("/confirm/{eventId}/{ticketId}")
+	@GetMapping("confirm/{eventId}/{ticketId}")
 	public String getConfirmPage(@PathVariable Long eventId ,@PathVariable Long ticketId, Model model) {
 		EventEntity event = eventService.find(eventId);
 		Ticket ticket = event.getTickets().get(ticketId.intValue());
@@ -60,7 +60,7 @@ public class CustomerController {
 		return "confirm";
 	}
 
-	@PostMapping("/confirm")
+	@PostMapping("confirm")
 	public String doConfirm(Model model, Long eventId, Long ticketId, @Valid ConfirmPage confirmPage, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			EventEntity event = eventService.find(eventId);
@@ -106,12 +106,12 @@ public class CustomerController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/getHistory")
+	@GetMapping("getHistory")
 	public String getCheckCustomerHistoryPage() {
 		return "getHistory";
 	}
 
-	@PostMapping("/getHistory")
+	@PostMapping("getHistory")
 	public String doCheckCustomerHistory(String addr, Model model){
 		//Join json file manual => need to be fixed
 
@@ -130,7 +130,7 @@ public class CustomerController {
 	}
 
 
-	@GetMapping(value =  "/qrcode/{orderId}", produces = MediaType.IMAGE_PNG_VALUE)
+	@GetMapping(value =  "qrcode/{orderId}", produces = MediaType.IMAGE_PNG_VALUE)
 	@ResponseBody
 	public byte[] getQRCodePage(@PathVariable Long orderId) throws Exception {
 		//The idea here is from orderId we can get the transaction that customer bought tickets from what event

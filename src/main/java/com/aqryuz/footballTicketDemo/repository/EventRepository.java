@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.aqryuz.footballTicketDemo.entity.EventEntity;
 
-
-public interface EventRepository {
+public interface EventRepository{
 	public void createCollection();
 	
 	public void insert(EventEntity event);

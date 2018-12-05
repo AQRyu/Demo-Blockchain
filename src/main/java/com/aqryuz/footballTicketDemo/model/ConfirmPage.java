@@ -9,7 +9,7 @@ public class ConfirmPage {
 	@NotBlank
 	private String email;
 	
-	@NotBlank
+	@NotBlank(message = "Hãy nhập email")
 	@Size(min = 9, max = 12, message = "Số cmnd phải 9 ký tự hoặc thẻ căn cước phải 12 ký tự")
 	private String customerId;
 	private Integer ticketAmount;

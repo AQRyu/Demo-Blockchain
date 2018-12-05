@@ -10,7 +10,6 @@ import com.aqryuz.footballTicketDemo.repository.EventRepository;
 
 import io.jsondb.JsonDBTemplate;
 
-
 @Repository
 public class EventRepositoryImpl implements EventRepository{
 	@Autowired

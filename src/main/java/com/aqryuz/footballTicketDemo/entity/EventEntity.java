@@ -1,10 +1,12 @@
 package com.aqryuz.footballTicketDemo.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.aqryuz.footballTicketDemo.model.Ticket;
 
@@ -18,15 +20,24 @@ public class EventEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 3966311925560080030L;
 	@Id
+	@NotNull(message = "Hãy nhập mã vé")
 	private Long id;
+	@NotBlank(message = "Hãy nhập tên trận đấu")
 	private String name;
+	@NotBlank(message = "Hãy nhập tên giải đấu")
 	private String league;
+	@NotBlank(message = "Hãy nhập tên đội nhà")
 	private String homeTeam;
+	@NotBlank(message = "Hãy nhập tên đội khách")
 	private String awayTeam;
+	@NotBlank(message = "Hãy nhập tên sân vận động")
 	private String stadium;
-	private Date date;
+	@NotBlank(message = "Hãy nhập ngày diễn ra trận đấu")
+	private String date;
+	@NotBlank(message = "Hãy nhập giờ diễn ra trận đấu")
 	private String time;
 	private List<Ticket> tickets = new ArrayList<>();
+	@NotNull(message = "Hãy nhập tổng số lượng vé bán ra")
 	private Integer numsTicket;
 	private String IpfsHash;
 	private String contractHash;
@@ -42,7 +53,7 @@ public class EventEntity implements Serializable{
 	}
 	
 	public EventEntity(Long id, String name, String league, String homeTeam, String awayTeam, String stadium,
-			Date date, String time, List<Ticket> tickets, Integer numsTicket, String ipfsHash,
+			String date, String time, List<Ticket> tickets, Integer numsTicket, String ipfsHash,
 			String contractHash) {
 		super();
 		this.id = id;
@@ -139,11 +150,11 @@ public class EventEntity implements Serializable{
 		this.stadium = stadium;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

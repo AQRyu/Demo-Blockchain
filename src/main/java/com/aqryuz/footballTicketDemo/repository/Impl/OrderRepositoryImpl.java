@@ -10,7 +10,6 @@ import com.aqryuz.footballTicketDemo.repository.OrderRepository;
 
 import io.jsondb.JsonDBTemplate;
 
-
 @Repository
 public class OrderRepositoryImpl implements OrderRepository{
 	@Autowired

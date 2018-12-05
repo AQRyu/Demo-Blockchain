@@ -18,30 +18,30 @@ import com.aqryuz.footballTicketDemo.service.OrderService;
 
 
 @RestController
-@RequestMapping("/api")
-public class OrderController {
+@RequestMapping("api")
+public class OrderRestController {
 	@Autowired
 	private OrderService orderService;
 
-	@GetMapping("/orders")
+	@GetMapping("orders")
 	public ResponseEntity<List<?>> findAll() {
-		List<OrderEntity> orderEntity = orderService.findAll();
-		return new ResponseEntity<>(orderEntity, HttpStatus.OK);
+		List<OrderEntity> eventEntity = orderService.findAll();
+		return new ResponseEntity<>(eventEntity, HttpStatus.OK);
 	}
 
-	@GetMapping("/orders/{customerAddress}")
-	public ResponseEntity<?> find(@PathVariable String customerAddress){
-		OrderEntity orderEntity = orderService.find(customerAddress);
-		return new ResponseEntity<>(orderEntity,HttpStatus.OK);
+	@GetMapping("orders/{id}")
+	public ResponseEntity<?> find(@PathVariable Long id){
+		OrderEntity eventEntity = orderService.find(id);
+		return new ResponseEntity<>(eventEntity,HttpStatus.OK);
 	}
 
-	@PostMapping("/orders")
+	@PostMapping("orders")
 	public ResponseEntity<?> add(@RequestBody OrderEntity order){
 		orderService.insert(order);
 		return new ResponseEntity<OrderEntity>(order, HttpStatus.OK);
 	}
 
-	@PutMapping("/orders/")
+	@PutMapping("orders/")
 	public ResponseEntity<?> upsert(@RequestBody OrderEntity order){
 		orderService.upsert(order);
 		return new ResponseEntity<OrderEntity>(order, HttpStatus.OK);

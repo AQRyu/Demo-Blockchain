@@ -26,8 +26,8 @@ import com.aqryuz.footballTicketDemo.service.EventService;
 
 
 @RestController
-@RequestMapping("/api")
-public class EventController {
+@RequestMapping("api")
+public class EventRestController {
 	@Autowired
 	private EventService eventService;
 
@@ -56,31 +56,31 @@ public class EventController {
 		entity.setNumsTicket(500);
 		entity.setTickets(tickets);
 
-		entity.setDate(Date.valueOf(LocalDate.now()));
+		entity.setDate(Date.valueOf(LocalDate.now()).toString());
 		entity.setTime(Time.valueOf(LocalTime.now()).toString());
 
 		eventService.upsert(entity);
 	}
 
-	@GetMapping("/events")
+	@GetMapping("events")
 	public ResponseEntity<List<?>> findAll() {
 		List<EventEntity> eventEntity = eventService.findAll();
 		return new ResponseEntity<>(eventEntity, HttpStatus.OK);
 	}
 
-	@GetMapping("/events/{id}")
+	@GetMapping("events/{id}")
 	public ResponseEntity<?> find(@PathVariable Long id){
 		EventEntity eventEntity = eventService.find(id);
 		return new ResponseEntity<>(eventEntity,HttpStatus.OK);
 	}
 
-	@PostMapping("/events")
+	@PostMapping("events")
 	public ResponseEntity<?> add(@RequestBody EventEntity event){
 		eventService.insert(event);
 		return new ResponseEntity<EventEntity>(event, HttpStatus.OK);
 	}
 
-	@PutMapping("/events/")
+	@PutMapping("events/")
 	public ResponseEntity<?> upsert(@RequestBody EventEntity event){
 		eventService.upsert(event);
 		return new ResponseEntity<EventEntity>(event, HttpStatus.OK);
