@@ -2,8 +2,6 @@ package com.aqryuz.footballTicketDemo.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.aqryuz.footballTicketDemo.entity.OrderEntity;
 
 
@@ -19,6 +17,8 @@ public interface OrderService {
 	public OrderEntity find(String customerAddress);
 	
 	public OrderEntity find(Long id);
+	
+	public List<OrderEntity> findAllBy(Long eventId);
 
 	public List<OrderEntity> findAll();
 	

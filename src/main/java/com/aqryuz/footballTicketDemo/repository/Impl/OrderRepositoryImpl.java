@@ -60,4 +60,10 @@ public class OrderRepositoryImpl implements OrderRepository{
 		return jsonDBTemplate.find(jxQuery, OrderEntity.class);
 	}
 
+	@Override
+	public List<OrderEntity> findAllBy(Long eventId) {
+		String jxQuery = String.format("/.[eventId='%s']", eventId);
+		return jsonDBTemplate.find(jxQuery, OrderEntity.class);
+	}
+
 }

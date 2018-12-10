@@ -21,4 +21,6 @@ public interface OrderRepository{
 
 	public OrderEntity find(Long id);
 
+	public List<OrderEntity> findAllBy(Long eventId);
+
 }

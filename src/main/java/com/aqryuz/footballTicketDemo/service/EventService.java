@@ -2,8 +2,6 @@ package com.aqryuz.footballTicketDemo.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.aqryuz.footballTicketDemo.entity.EventEntity;
 
 

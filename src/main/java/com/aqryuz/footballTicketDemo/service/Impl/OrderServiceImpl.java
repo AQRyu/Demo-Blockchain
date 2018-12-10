@@ -55,5 +55,10 @@ public class OrderServiceImpl implements OrderService{
 		return orderRepository.findAllBy(customerAddress);
 	}
 
+	@Override
+	public List<OrderEntity> findAllBy(Long eventId) {
+		return orderRepository.findAllBy(eventId);
+	}
+
 
 }

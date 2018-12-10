@@ -42,7 +42,7 @@ public class AdminController {
 		Credentials seller = SellerWallet.loadCredentials();
 		contractService.load(seller);
 		contractService.killEvent();
-		return "redirect:/";
+		return "redirect:/admin";
 	}
 
 	@GetMapping("createTicket")
