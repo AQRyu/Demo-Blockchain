@@ -2,6 +2,7 @@ package com.aqryuz.footballTicketDemo.config;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -12,8 +13,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		.antMatchers("/css/**", "/index","/js/**","/img/**").permitAll()	
-		.antMatchers("/api/**").permitAll()
 		.antMatchers("/admin/**").hasRole("ADMIN")
 		.and()
 		.formLogin();
@@ -28,5 +27,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.withUser("admin")
 		.password("{noop}admin")
 		.roles("ADMIN");
+	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/css/**");
+		web.ignoring().antMatchers("/js/**");
+		web.ignoring().antMatchers("/img/**");
+		web.ignoring().antMatchers("/api/**");
+		web.ignoring().antMatchers("/favicon.ico");
 	}
 }
